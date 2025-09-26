@@ -1,3 +1,15 @@
+// ===== Guard for protected pages (profiles.html / main.html) =====
+(function guard() {
+  const onLoginPage = !!document.getElementById('loginForm');
+  if (!onLoginPage) {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+      // אם לא מחובר — חזרה לעמוד ההתחברות
+      window.location.href = "index.html";
+    }
+  }
+})();
+
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("emailInput");
@@ -27,6 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // אם הכל תקין
     if (isValid) {
+    localStorage.setItem('isLoggedIn', 'true');        // סימון שהמשתמש מחובר
+    localStorage.setItem('loggedInAt', Date.now()+""); // אופציונלי: חותמת זמן
+
       window.location.href = "profiles.html"; // מעביר לעמוד הפרופילים
     }
   });
